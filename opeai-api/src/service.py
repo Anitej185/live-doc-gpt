@@ -5,6 +5,7 @@ from langchain.chat_models import ChatOpenAI
 
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.document_loaders import PyPDFLoader
+from langchain.document_loaders import JSONLoader
 
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -35,10 +36,19 @@ class LangChainResponseGenerator():
         )
 
         pypdfs = []
+        pyjson = []
         for src in self.srcs:
             if not os.path.exists(src):
                 raise FileNotFoundError(f"{src} file not found!")
-            pypdfs.extend(PyPDFLoader(src).load())
+            if src.endswith('.pdf'):
+                pypdfs.extend(PyPDFLoader(src).load())
+            elif src.endswith('.json'):
+                pyjson.extend(JSONLoader(src).load())
+                pass
+            else:
+                raise ValueError(f"Unsupported file type: {src}")
+            #pypdfs.extend(PyPDFLoader(src).load())
+            #pyjson.extend(JSONLoader(src).load())
         
         splits = text_splitter.split_documents(pypdfs)
         return splits
@@ -57,26 +67,26 @@ class LangChainResponseGenerator():
     
     def create_llm(self):
         llm = ChatOpenAI(model_name=llm_name, temperature=0, openai_api_key=OPENAI_API_KEY)
-        return llm
+        return llm 
     
 # if __name__ == "__main__":
 
-#     srcs = [
-#         "/Users/rohandeshpande/live-doc-gpt/documents/HeadachesMigraines.pdf"
-#     ]
-#     lcrg = LangChainResponseGenerator(srcs)
+    srcs = [
+        "/Users/rohandeshpande/live-doc-gpt/documents/codes.json"
+    ]
+    lcrg = LangChainResponseGenerator(srcs)
 
-#     llm = lcrg.create_llm()
-#     vdb = lcrg.create_vector_db()
+    llm = lcrg.create_llm()
+    vdb = lcrg.create_vector_db()
     
-#     qa_chain = RetrievalQA.from_chain_type(
-#         llm,
-#         retriever=vdb.as_retriever()
-#     )
+    qa_chain = RetrievalQA.from_chain_type(
+        llm,
+        retriever=vdb.as_retriever()
+    )
     
-#     user_question = "What is a migraine?"
-#     result = qa_chain({"query": user_question})
+    user_question = "What is a migraine?"
+    result = qa_chain({"query": user_question})
     
-#     print(result["result"])
+    print(result["result"])
 
 
