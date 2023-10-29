@@ -28,8 +28,6 @@ sys.path.append('../..')
 from dotenv import load_dotenv, find_dotenv
 _ = load_dotenv(find_dotenv()) # read local .env file
 
-
-
 ! pip install pypdf
 
 """Sample Data Loading (CS229 lecture pdf)"""
@@ -96,16 +94,7 @@ len(splits)
 from langchain.embeddings.openai import OpenAIEmbeddings
 embedding = OpenAIEmbeddings(openai_api_key='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')
 
-sentence1 = "i like dogs"
-sentence2 = "i like canines"
-sentence3 = "the weather is ugly outside"
-
 !pip install tiktoken --use-deprecated=legacy-resolver
-
-embedding1 = embedding.embed_query(sentence1)
-embedding2 = embedding.embed_query(sentence2)
-embedding3 = embedding.embed_query(sentence3)
-
 !pip install chromadb
 
 from langchain.vectorstores import Chroma
@@ -141,3 +130,31 @@ qa_chain = RetrievalQA.from_chain_type(
 result = qa_chain({"query": user_question})
 
 result["result"]
+
+"""# Memory Incorporation"""
+
+from langchain.memory import ConversationBufferMemory
+memory = ConversationBufferMemory(
+    memory_key="chat_history",
+    return_messages=True
+)
+
+"""## Conversational Retrieval Chain -> incorporates chat history for follow-up questions"""
+
+from langchain.chains import ConversationalRetrievalChain
+retriever=vectordb.as_retriever()
+qa = ConversationalRetrievalChain.from_llm(
+    llm,
+    retriever=retriever,
+    memory=memory
+)
+
+question = "Is probability a class topic?"
+result = qa({"question": question})
+result['answer']
+
+"""### follow-up question"""
+
+question = "why are those prerequesites needed?"
+result = qa({"question": question})
+result['answer']
