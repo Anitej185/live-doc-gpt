@@ -4,7 +4,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'GPT Dream Interpreter',
+  title: 'LiveDoc GPT Interpreter',
   description: 'GPT powered assistant to help you interpret your dreams',
 }
 
