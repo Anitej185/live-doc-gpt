@@ -1,4 +1,4 @@
-# GPT Dream Interpreter
+# GPT LiveDoc Interpreter
 
 ## Installing Dependencies
 
