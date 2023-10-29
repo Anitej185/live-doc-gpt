@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  /* color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb)); */
+      color: black;
+      background-color: white;
+}
+
+.chatContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.messagesContainer {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.systemMessage,
+.userMessage {
+  max-width: 80%;
+  padding: 10px;
+  border-radius: 10px;
+  line-height: 1.5;
+}
+
+.systemMessage {
+  background-color: #e1f5fe;
+  align-self: flex-start;
+}
+
+.userMessage {
+  background-color: #b3e5fc;
+  align-self: flex-end;
+}
+
+.messageContent {
+  word-wrap: break-word;
+}
+
+.inputForm {
+  display: flex;
+  gap: 10px;
+  padding-top: 10px;
+}
+
+.inputField {
+  flex-grow: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.submitButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background-color: #45a049;
+}
