@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Box</title>
+    <style>
+        #chat-container {
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .user-message {
+            color: red;
+        }
+
+        .bot-message {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <p class="bot-message">Welcome! How can I assist you today?</p>
+    </div>
+    <input type="text" id="user-input" placeholder="Type your message">
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        function sendMessage() {
+            console.log("Clicked the button")
+            var userInput = document.getElementById("user-input").value;
+            appendMessage("user-message", "User: " + userInput);
+            // Assuming you are using fetch API for making the POST request
+            fetch('/api/message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: userInput }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                var result = data.result;
+                appendMessage("bot-message", "Bot: " + result);
+            });
+        }
+
+        function appendMessage(className, message) {
+            var chatContainer = document.getElementById("chat-container");
+            var newMessage = document.createElement("p");
+            newMessage.className = className;
+            newMessage.textContent = message;
+            chatContainer.appendChild(newMessage);
+            chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to the bottom
+        }
+    </script>
+</body>
+</html>

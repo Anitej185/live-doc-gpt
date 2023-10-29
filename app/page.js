@@ -31,7 +31,7 @@ export default function Chat() {
       <form onSubmit={handleSubmit} className="inputForm">
         <input
           value={input}
-          placeholder="What did you dream of..."
+          placeholder="Send a message here"
           onChange={handleInputChange}
           className="inputField"
         />

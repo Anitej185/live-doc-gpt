@@ -71,22 +71,22 @@ class LangChainResponseGenerator():
     
 # if __name__ == "__main__":
 
-    srcs = [
-        "/Users/rohandeshpande/live-doc-gpt/documents/codes.json"
-    ]
-    lcrg = LangChainResponseGenerator(srcs)
+    # srcs = [
+    #     "/Users/rohandeshpande/live-doc-gpt/documents/codes.json"
+    # ]
+    # lcrg = LangChainResponseGenerator(srcs)
 
-    llm = lcrg.create_llm()
-    vdb = lcrg.create_vector_db()
+    # llm = lcrg.create_llm()
+    # vdb = lcrg.create_vector_db()
     
-    qa_chain = RetrievalQA.from_chain_type(
-        llm,
-        retriever=vdb.as_retriever()
-    )
+    # qa_chain = RetrievalQA.from_chain_type(
+    #     llm,
+    #     retriever=vdb.as_retriever()
+    # )
     
-    user_question = "What is a migraine?"
-    result = qa_chain({"query": user_question})
+    # user_question = "What is a migraine?"
+    # result = qa_chain({"query": user_question})
     
-    print(result["result"])
+    # print(result["result"])
 
 

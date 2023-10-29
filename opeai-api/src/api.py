@@ -1,16 +1,14 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from flask_cors import cross_origin, CORS
-
-from service import LangChainResponseGenerator, RetrievalQA
+from src.service import LangChainResponseGenerator, RetrievalQA
 
 app = Flask(__name__)
 CORS(app, origins='*') 
 
-
 def load_data():
     global qa_chain
     srcs = [
-        "documents/HeadachesMigraines.pdf"
+        "/Users/anitejthamma/Desktop/livedoc-main/opeai-api/src/documents/HeadachesMigraines.pdf"
     ]
     lcrg = LangChainResponseGenerator(srcs)
 
@@ -22,15 +20,17 @@ def load_data():
         retriever=vdb.as_retriever()
     )
 
+load_data()
 
-load_data()  # Call the function to load the data when the app starts
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/api/message', methods=['POST'])
 @cross_origin()
 def get_data():
     data = request.get_json()
     message = data["message"]
-
     result = qa_chain({"query": message})
     return jsonify(result)
 
